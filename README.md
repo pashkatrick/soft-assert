@@ -1,66 +1,61 @@
-[![Build Status](https://api.travis-ci.org/balalaiQA/smart-assertions.svg?branch=master)](https://travis-ci.com/github/balalaiQA/smart-assertions)
-[![PyPI version](https://badge.fury.io/py/smart-assertions.svg)](https://badge.fury.io/py/smart-assertions)
-[![Downloads](https://pepy.tech/badge/smart-assertions)](https://pepy.tech/project/smart-assertions)
-# smart-assertions
-Soft assertions for Python
+[![PyPI version](https://badge.fury.io/py/soft-asserts.svg)](https://badge.fury.io/py/soft-asserts)
+[![Downloads](https://pepy.tech/badge/soft-asserts)](https://pepy.tech/project/soft-asserts)
+# soft-asserts
+Soft assertions for Python/Pytest
 
 ## Installation
 
 ```bash
-    pip install smart-assertions
+    pip install soft-asserts
 ```
 ## Usage
 
-Assertion is performed immediately after the call `soft_assert()`, 
-but the expected result is obtained only after the call `verify_expectations()`
+Assertion is performed immediately after the call `check()`, 
+but the expected result is obtained only after exit the context manager `verify()`
 
 Quick example:
 ```python
-    from  smart_assertions import soft_assert, verify_expectations
+    from  soft_asserts import check, verify
 
     def test_something():
-        soft_assert(1 == 1)
-        soft_assert(2 > 1, 'Message if test failed')
-        soft_assert('one' != 'two', 'Some message')
-        verify_expectations()
+        with verify():
+            check(1 == 1)
+            check(2 > 1, 'Message if test failed')
+            check('one' != 'two', 'Some message')
 ```
 
 You can use asserts in loop:
 ```python
-    from  smart_assertions import soft_assert, verify_expectations
+    from  soft_asserts import check, verify
     
     def test_asserts_in_loop():
-        for number in range(1, 10):
-            soft_assert(number % 2 == 0, '{} is not a multiple of 2'.format(number))
-        verify_expectations()
+        with verify():
+            for number in range(1, 10):
+                check(number % 2 == 0, '{number} is not a multiple of 2')
 ```
 
 Also you can use it with pytest parametrized tests:
 ```python
     import pytest
-    from  smart_assertions import soft_assert, verify_expectations
+    from  soft_asserts import check, verify
 
-    @pytest.mark.parametrize("number", list(range(1, 10)))
+    @pytest.mark.parametrize('number', list(range(1, 10)))
     def test_pytest_example(number):
-        soft_assert(number % 2 == 0)
-        verify_expectations()
+        with verify():
+            check(number % 2 == 0)
 ```
 
 Example of output:
 ```python
     AssertionError: Failed conditions count: [ 4 ]
     
-    1. Exception: Custom message if test failed
-    Fail in "/Users/nromanov/Documents/smart-assertions/unittest_example.py:28" test_mixed()
+    1. Failure: Custom message if test failed
     
-    2. Exception: Lists not equals
-    Fail in "/Users/nromanov/Documents/smart-assertions/unittest_example.py:30" test_mixed()
+    2. Failure: Lists not equals
     
-    3. Exception: Your custom message; 4 < 5!
-    Fail in "/Users/nromanov/Documents/smart-assertions/unittest_example.py:32" test_mixed()
+    3. Failure: Your custom message; 4 < 5!
     
-    4. Exception: one != two
-    Fail in "/Users/nromanov/Documents/smart-assertions/unittest_example.py:34" test_mixed()
+    4. Failure: one != two
 ```
 
-More examples you can find in `unittest_example.py` 
+More examples you can find in `test_example.py` 
