@@ -1,4 +1,4 @@
-from soft_asserts import check, verify
+from soft_assert import check, verify
 
 
 class TestPytestExample():

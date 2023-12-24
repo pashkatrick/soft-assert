@@ -4,7 +4,7 @@ Soft assertions for Python/Pytest
 ## Installation
 
 ```bash
-    pip install soft-asserts
+    pip install soft-assert
 ```
 ## Usage
 
@@ -13,7 +13,7 @@ but the expected result is obtained only after exit the context manager `verify(
 
 Quick example:
 ```python
-    from  soft_asserts import check, verify
+    from  soft_assert import check, verify
 
     def test_something():
         with verify():
@@ -24,7 +24,7 @@ Quick example:
 
 You can use asserts in loop:
 ```python
-    from  soft_asserts import check, verify
+    from  soft_assert import check, verify
     
     def test_asserts_in_loop():
         with verify():
@@ -35,7 +35,7 @@ You can use asserts in loop:
 Also you can use it with pytest parametrized tests:
 ```python
     import pytest
-    from  soft_asserts import check, verify
+    from  soft_assert import check, verify
 
     @pytest.mark.parametrize('number', list(range(1, 10)))
     def test_pytest_example(number):
