@@ -1,5 +1,3 @@
-[![PyPI version](https://badge.fury.io/py/soft-asserts.svg)](https://badge.fury.io/py/soft-asserts)
-[![Downloads](https://pepy.tech/badge/soft-asserts)](https://pepy.tech/project/soft-asserts)
 # soft-asserts
 Soft assertions for Python/Pytest
 
