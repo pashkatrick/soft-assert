@@ -1,10 +1,9 @@
 import types
-import inspect
 
 failed_conditions = []
 
 
-def soft_assert(assert_condition, message=None):
+def check(assert_condition, message=None):
     global failed_conditions
     if isinstance(assert_condition, types.FunctionType):
         try:
@@ -18,26 +17,27 @@ def soft_assert(assert_condition, message=None):
             add_exception(message if message else 'Failed by assertion!')
 
 
-def verify_expectations():
-    global failed_conditions
-    if failed_conditions:
-        report_exceptions()
-
-
 def add_exception(message=None):
     global failed_conditions
-    (file_path, line, function_name) = inspect.stack()[2][1:4]
-    failed_conditions.append('Exception: {}\nFail in "{}:{}" {}()\n'.format(message, file_path, line, function_name))
+    failed_conditions.append(f'Failure: {message}\n')
 
 
-def report_exceptions():
+def verify_expectations():
     global failed_conditions
     if failed_conditions:
         report = ['Failed conditions count: [ {} ]\n'.format(len(failed_conditions))]
         for index, failure in enumerate(failed_conditions, start=1):
             if len(failed_conditions) > 1:
-                report.append('{}. {}'.format(index, failure))
+                report.append(f'{index}. {failure}')
             else:
                 report.append(failure)
         failed_conditions = []
         raise AssertionError('\n'.join(report))
+
+
+class verify:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        verify_expectations()
