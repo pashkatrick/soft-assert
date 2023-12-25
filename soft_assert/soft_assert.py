@@ -2,6 +2,13 @@ import types
 
 failed_conditions = []
 
+def clear_failures() -> None:
+    global failed_conditions
+    failed_conditions = []
+
+def get_failures() -> list:
+    global failed_conditions
+    return failed_conditions
 
 def check(assert_condition, message=None):
     global failed_conditions
