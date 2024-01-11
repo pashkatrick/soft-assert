@@ -2,13 +2,21 @@ import types
 
 failed_conditions = []
 
+
 def clear_failures() -> None:
     global failed_conditions
     failed_conditions = []
 
+
+def get_last_failure() -> str | None:
+    global failed_conditions
+    return failed_conditions.pop() if failed_conditions else None
+
+
 def get_failures() -> list:
     global failed_conditions
     return failed_conditions
+
 
 def check(assert_condition, message=None):
     global failed_conditions
@@ -21,25 +29,25 @@ def check(assert_condition, message=None):
         try:
             assert assert_condition
         except AssertionError:
-            add_exception(message if message else 'Failed by assertion!')
+            add_exception(message if message else "Failed by assertion!")
 
 
 def add_exception(message=None):
     global failed_conditions
-    failed_conditions.append(f'Failure: {message}\n')
+    failed_conditions.append(f"Failure: {message}\n")
 
 
 def verify_expectations():
     global failed_conditions
     if failed_conditions:
-        report = ['Failed conditions count: [ {} ]\n'.format(len(failed_conditions))]
+        report = ["Failed conditions count: [ {} ]\n".format(len(failed_conditions))]
         for index, failure in enumerate(failed_conditions, start=1):
             if len(failed_conditions) > 1:
-                report.append(f'{index}. {failure}')
+                report.append(f"{index}. {failure}")
             else:
                 report.append(failure)
         failed_conditions = []
-        raise AssertionError('\n'.join(report))
+        raise AssertionError("\n".join(report))
 
 
 class verify:
