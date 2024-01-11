@@ -8,14 +8,19 @@ def clear_failures() -> None:
     failed_conditions = []
 
 
-def get_last_failure() -> str | None:
-    global failed_conditions
-    return failed_conditions.pop() if failed_conditions else None
-
-
 def get_failures() -> list:
     global failed_conditions
     return failed_conditions
+
+
+def get_last_failure() -> str | None:
+    global failed_conditions
+    return failed_conditions[-1] if failed_conditions else None
+
+
+def extract_last_failure() -> str | None:
+    global failed_conditions
+    return failed_conditions.pop() if failed_conditions else None
 
 
 def check(assert_condition, message=None):
